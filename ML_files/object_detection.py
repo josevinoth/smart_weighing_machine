@@ -1,7 +1,7 @@
 import os
 import warnings
 import itertools
-from keras.preprocessing import image
+from tensorflow.keras.utils import image_utils as image
 from keras.src.utils import np_utils
 warnings.filterwarnings('ignore')
 import numpy as np
@@ -185,3 +185,6 @@ predict_images=model.predict(x_train)
 # f.write_text(model_structure)
 model.save_weights('../model/model_weights.h5')
 model.save('../model/full_model.h5')
+
+
+
