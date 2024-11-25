@@ -1,1 +1,1 @@
-prin("ryeire")
+prin("ryre")
