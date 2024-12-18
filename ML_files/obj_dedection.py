@@ -8,26 +8,37 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # Create a list with the filepaths for training and testing
-train_dir = Path('../input/fruit-and-vegetable-image-recognition/train')
+train_dir = Path('../ML_files/train')
 train_filepaths = list(train_dir.glob(r'**/*.jpg'))
 
-test_dir = Path('../input/fruit-and-vegetable-image-recognition/test')
+test_dir = Path('../ML_files/test')
 test_filepaths = list(test_dir.glob(r'**/*.jpg'))
 
-val_dir = Path('../input/fruit-and-vegetable-image-recognition/validation')
-val_filepaths = list(test_dir.glob(r'**/*.jpg'))
+val_dir = Path('../ML_files/validation')
+val_filepaths = list(val_dir.glob(r'**/*.jpg'))
 
 def proc_img(filepath):
-    """ Create a DataFrame with the filepath and the labels of the pictures
-    """
-    labels = [str(filepath[i]).split("/")[-2] \
-              for i in range(len(filepath))]
+    """Create a DataFrame with filepaths and labels of images."""
+    labels = []
+    for path in filepath:
+        # Use pathlib to handle paths
+        path_obj = Path(path)
+        label = path_obj.parent.name  # Extract the label as the parent directory name
+        labels.append(label)
 
-    filepath = pd.Series(filepath, name='fruits_img').astype(str)
+    filepath = pd.Series(filepath, name='filepath').astype(str)
     labels = pd.Series(labels, name='Label')
 
     # Concatenate filepaths and labels
     df = pd.concat([filepath, labels], axis=1)
+
+    # Debugging information
+    if df.empty:
+        print("No filepaths found.")
+    elif df['Label'].isnull().all():
+        print("No labels could be extracted.")
+    else:
+        print(f"Processed {len(df)} images with {df['Label'].nunique()} unique labels.")
 
     # Shuffle the DataFrame and reset index
     df = df.sample(frac=1).reset_index(drop=True)
@@ -38,6 +49,12 @@ def proc_img(filepath):
 train_df = proc_img(train_filepaths)
 test_df = proc_img(test_filepaths)
 val_df = proc_img(val_filepaths)
+
+print(train_df.head())
+print(train_df['Label'].value_counts())
+print(train_df.dtypes)
+print(train_df[train_df['Label'] == "unknown"])
+
 print('-- Training set --\n')
 print(f'Number of pictures: {train_df.shape[0]}\n')
 print(f'Number of different labels: {len(train_df.Label.unique())}\n')
@@ -46,6 +63,10 @@ print(f'Labels: {train_df.Label.unique()}')
 train_df.head(5)
 # Create a DataFrame with one Label of each category
 df_unique = train_df.copy().drop_duplicates(subset=["Label"]).reset_index()
+
+if df_unique.empty:
+    print("No unique labels found. Check the dataset structure.")
+    exit()
 
 # Display some pictures of the dataset
 fig, axes = plt.subplots(nrows=6, ncols=6, figsize=(8, 7),
