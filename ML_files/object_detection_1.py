@@ -7,8 +7,8 @@ from tensorflow.keras.optimizers import Adam
 import os
 
 # Set paths
-train_dir = r'C:\Users\BVM\PycharmProjects\smart_weighing_machine_v1.0\ML_files\train'
-test_dir = r'C:\Users\BVM\PycharmProjects\smart_weighing_machine_v1.0\ML_files\test'
+train_dir = r'C:\Users\Franciska\PycharmProjects\smart_weighing_machine_v1.0\images\Training'
+test_dir = r'C:\Users\Franciska\PycharmProjects\smart_weighing_machine_v1.0\images\Test'
 
 
 # Image parameters

@@ -1,0 +1,47 @@
+#include <HX711_ADC.h>
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+HX711_ADC LoadCell(6, 7);               // parameters: dt pin 6, sck pin 7;
+LiquidCrystal_I2C lcd(0x27, 16, 2);     // LCD with I2C address 0x27 (may vary)
+
+void setup() {
+  Serial.begin(9600);                   // Start serial monitor for debugging
+  LoadCell.begin();                     // Initialize HX711 load cell
+  LoadCell.start(1000);                  // Allow 1000ms for the load cell to stabilize
+  LoadCell.setCalFactor(1000.0);        // Calibration factor, modify based on your setup
+  LoadCell.tare();                      // Tare the scale to zero
+
+  lcd.init();                           // Initialize the LCD
+  lcd.backlight();                      // Turn on backlight
+  lcd.setCursor(0, 0);
+  lcd.print("Smart Weigh Scale");
+  delay(1000);
+  lcd.clear();
+}
+
+void loop() {
+  LoadCell.update();                    // Retrieve the latest load cell data
+  float rawWeight = LoadCell.getData();  // Get the weight data
+
+  int weight;
+
+  // Treat values between -10g and 0.1g as 0
+  if (rawWeight > -10.0 && rawWeight < 0.1) {
+    weight = 0;
+  } else {
+    weight = (int)rawWeight;  // Convert to integer for a clean display
+  }
+
+  // Display the weight on the LCD
+  lcd.setCursor(0, 0);                  // Set cursor to the top left
+  lcd.print("Weight[g]:       ");       // Print label and clear previous characters
+  lcd.setCursor(0, 1);                  // Set cursor to the second row
+  lcd.print(weight);                    // Print the weight value
+  lcd.print(" g  ");                    // Add spacing to overwrite old digits
+
+  // Send the weight value to the Serial Monitor (and Python program)
+  Serial.println(weight);               // Send the weight value over serial
+
+  delay(200);                           // Short delay for more responsive updates
+}
