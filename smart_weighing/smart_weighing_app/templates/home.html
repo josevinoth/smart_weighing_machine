@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container text-center mt-5">
+        <h1 class="mb-5">Shop Management System</h1>
+
+        <div class="row justify-content-center g-4">
+
+            {% if user.is_superuser %}
+                <!-- Only for Superuser: Manage Shops -->
+                <div class="col-md-4">
+                    <a href="{% url 'shop_list' %}" class="text-decoration-none text-dark">
+                        <div class="card card-btn shadow-lg">
+                            <div class="card-body">
+                                <h3 class="card-title">🛍️ Manage Shops</h3>
+                                <p class="card-text">Register and edit shop details.</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endif %}
+
+            <!-- Visible to all: Manage Items -->
+            <div class="col-md-4">
+                <a href="{% url 'item_list' %}" class="text-decoration-none text-dark">
+                    <div class="card card-btn shadow-lg">
+                        <div class="card-body">
+                            <h3 class="card-title">🍎 Manage Items</h3>
+                            <p class="card-text">Add or update product items.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Visible to all: Manage Prices -->
+            <div class="col-md-4">
+                <a href="{% url 'price_list' %}" class="text-decoration-none text-dark">
+                    <div class="card card-btn shadow-lg">
+                        <div class="card-body">
+                            <h3 class="card-title">💰 Manage Prices</h3>
+                            <p class="card-text">Add, edit, and view item prices.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Visible to all: Add Bill -->
+            <div class="col-md-4">
+                <a href="{% url 'bill_list' %}" class="text-decoration-none text-dark">
+                    <div class="card card-btn shadow-lg">
+                        <div class="card-body">
+                            <h3 class="card-title">🧾 Add Bill</h3>
+                            <p class="card-text">Create a bill with shop, item, and weight.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+
+
+        </div>
+    </div>
+{% endblock %}

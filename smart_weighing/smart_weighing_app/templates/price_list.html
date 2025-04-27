@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load tz %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Price List</h1>
+
+    <div class="text-end mb-3">
+        <a href="{% url 'price_add' %}" class="btn btn-success">Add Price</a>
+    </div>
+
+    {% if prices %}
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>Created On</th>
+            <th>Shop Name</th>
+            <th>Item Name</th>
+            <th>Price per KG</th>
+            <th>Updated On</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for price in prices %}
+        <tr>
+            <td>{% timezone "Asia/Kolkata" %}{{ price.created_at|date:"d-M-Y h:i A" }}{% endtimezone %}</td>                            <td>{{ price.shop.shop_name }}</td>
+            <td>{{ price.item.item_name }}</td>
+            <td>₹{{ price.price_per_kg }}</td>
+            <td>{% timezone "Asia/Kolkata" %}{{ price.updated_at|date:"d-M-Y h:i A" }}{% endtimezone %}</td>                            <td>
+            <a href="{% url 'price_edit' price.id %}" class="btn btn-primary btn-sm">Edit</a>
+            <a href="{% url 'price_delete' price.id %}" class="btn btn-danger btn-sm">Delete</a>
+        </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="text-center">No prices available at the moment.</p>
+    {% endif %}
+</div>
+{% endblock %}

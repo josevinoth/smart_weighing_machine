@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Add New Price</h1>
+
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="form-group mb-3">
+                <label for="id_shop">Shop</label>
+                {{ form.shop }}
+            </div>
+            
+            <div class="form-group mb-3">
+                <label for="id_item">Item</label>
+                {{ form.item }}
+            </div>
+            
+            <div class="form-group mb-3">
+                <label for="id_price_per_kg">Price per KG</label>
+                {{ form.price_per_kg }}
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save Price</button>
+        </form>
+
+        <div class="mt-4">
+            <a href="{% url 'price_list' %}" class="btn btn-secondary">Back to Price List</a>
+        </div>
+    </div>
+{% endblock %}

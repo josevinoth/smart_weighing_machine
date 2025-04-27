@@ -1,0 +1,24 @@
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+.navbar-custom {
+    background: linear-gradient(90deg, #4CAF50, #81C784);
+}
+
+.navbar-title {
+    margin: 0 auto;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: white;
+}
+
+.navbar-text, .btn {
+    color: white;
+}
+.errorlist {
+        color: red;
+        list-style: none; /* Optional: removes the bullets */
+        padding-left: 0;
+        font-size: 0.9rem; /* Optional: slightly smaller */
+    }

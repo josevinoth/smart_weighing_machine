@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container mt-5">
+        <h2>{% if shop %}Edit{% else %}Register{% endif %} Shop</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">
+                {% if shop %}Save Changes{% else %}Register{% endif %}
+            </button>
+        </form>
+        <a href="{% url 'shop_list' %}" class="btn btn-secondary mt-3">Back to Shop List</a>
+    </div>
+{% endblock %}

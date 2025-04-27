@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Add/Update Item</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="d-flex justify-content-between">
+            <button class="btn btn-primary" type="submit">Add/Edit</button>
+            <a class="btn btn-secondary" href="{% url 'item_list' %}">Cancel</a>
+        </div>
+    </form>
+{% endblock %}

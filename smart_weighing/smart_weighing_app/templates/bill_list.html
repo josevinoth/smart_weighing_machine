@@ -1,0 +1,31 @@
+<!-- In templates/bill_list.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">List of Bills</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Bill Number</th>
+                <th>Shop</th>
+                <th>Total Amount</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bill in bills %}
+                <tr>
+                    <td>{{ bill.bill_id }}</td>
+                    <td>{{ bill.shop.shop_name }}</td>
+                    <td>₹{{ bill.total_amount }}</td>
+                    <td>
+                        <a href="{% url 'generate_bill' bill_id=bill.id %}" class="btn btn-info btn-sm">View Bill</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

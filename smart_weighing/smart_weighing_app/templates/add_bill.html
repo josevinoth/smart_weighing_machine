@@ -1,0 +1,18 @@
+<form method="post">
+    {% csrf_token %}
+    {{ bill_form.as_p }}
+
+    <div class="bill-items">
+        <label for="items">Select Items:</label>
+        <select name="items" id="items" multiple>
+            {% for item in bill_item_form.fields.item.choices %}
+                <option value="{{ item.0 }}">{{ item.1 }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="weights">Enter Weights (in kg):</label>
+        <input type="text" name="weights" id="weights" multiple>
+    </div>
+
+    <button type="submit">Generate Bill</button>
+</form>

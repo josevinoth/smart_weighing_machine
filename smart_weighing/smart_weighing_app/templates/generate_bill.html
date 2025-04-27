@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Generate Bill</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="form-group mb-3">
+            <p>{{ shop.shop_name }}<br>{{ shop.address }}<br>{{ shop.mobile_number }}</p>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="id_items">Select Items</label>
+            <select name="item" id="id_items" class="form-control" multiple>
+                {% for item in items %}
+                <option value="{{ item.id }}">{{ item.item_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="id_weight">Weight (kg)</label>
+            <input type="number" name="weight" id="id_weight" class="form-control" step="any" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Item</button>
+    </form>
+
+    <div class="mt-4">
+        <h3>Bill Summary</h3>
+        <p><strong>Bill No:</strong> {{ bill_id }}</p>  <!-- This will show the bill number -->
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Item</th>
+                <th>Weight (kg)</th>
+                <th>Price per KG</th>
+                <th>Total Price</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in selected_items %}
+            <tr>
+                <td>{{ item.item_name }}</td>
+                <td>{{ item.weight }}</td>
+                <td>{{ item.price_per_kg }}</td>
+                <td>{{ item.total_price }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <h4>Total Amount: ₹{{ total_amount }}</h4>
+
+    </div>
+</div>
+{% endblock %}
